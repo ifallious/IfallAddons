@@ -1,0 +1,8 @@
+{
+  "name": "IfallAddons",
+  "description": "Mommy",
+  "author": "ifallious",
+  "entry": "index.js",
+  "requires":["RenderLib", "requestV2", "SettingsMenager", "Gradient", "BloomCore"],
+  "version":"&l&d1&d.&l&o&d0"
+}

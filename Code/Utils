@@ -1,0 +1,7 @@
+const prefix = "§l§dIfallAddons"
+const getVersion = () => JSON.parse(FileLib.read("IfallAddons", "metadata.json")).version
+const ign = (playername) => {
+    let ignn = World.getPlayerByName(playername)
+}
+
+export {prefix, getVersion, ign}
