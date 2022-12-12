@@ -1,10 +1,9 @@
 import RenderLib from "../RenderLib/index.js";
-import Dungeon from "../BloomCore/dungeons/Dungeon";
+import Skyblock from "../BloomCore/Skyblock"
 import { Setting, SettingsObject } from 'SettingsManager/SettingsManager';
 import * as Gradient from "Gradient";
 
 import {prefix, BP, getVersion, ign} from "./Code/Utils"
-import Skyblock from "../BloomCore/Skyblock";
 var text = new Text(prefix, 55, 17.5);
 var text2 = new Text(prefix, 5, 17.5);
 let Deathbanenabled = true
@@ -35,6 +34,8 @@ ChatLib.chat(ChatLib.getCenteredText("&8&lThank for for installing IfallAddons!"
 ChatLib.chat(ChatLib.getCenteredText("&8&lTo Access the gui run &c&l/ifall!"));
 ChatLib.chat(ChatLib.getCenteredText("")); 
 ChatLib.chat(ChatLib.getChatBreak("&8-"));
+World.playSound("random.levelup", 100, 1.1);
+Client.showTitle(`&l&8Thank you for installing IfallAddons`, "&l&8open GUI with /ifall", 15, 100, 15);
 
 const settings = new SettingsObject('IfallAddons', [
 	{
@@ -42,7 +43,7 @@ const settings = new SettingsObject('IfallAddons', [
 		settings: [
             new Setting.Toggle("GyroTimer", true),
             new Setting.Toggle("F7 Ghostblocks for Phases that no other client has", true),
-            new Setting.Toggle("Auto Storm Slimehat", true)
+            new Setting.Toggle("Auto Storm Slimehat", true),
             new Setting.Slider("Floor", 1, 0, 7),
             new Setting.Toggle("Auto join Mastermode Toggle", false),
             new Setting.TextInput("Your Rank and Ign", "[Your_Rank] Your_Name ●"),
@@ -102,33 +103,56 @@ const autoslimehat = () => {
 register("chat", () => {
   autoslimehat()
 }
-).setCriteria("[BOSS] Storm: The power of lightning is quite phenomenal. A single strike can vaporize a person whole.")
+).setCriteria("[BOSS] Storm: I'd be happy to show you what that's like!")
 
 register("step", () => {
-  if (settings.getSetting("Dungeons", "F7 Ghostblocks for Phjases that no other client has") == false) return;
+  if (settings.getSetting("Dungeons", "F7 Ghostblocks for Phases that no other client has") == false) return;
   let scoreboardInfoData = Scoreboard.getLines()
   let scoreboardInfo = scoreboardInfoData.join()
-  if (scoreboardInfo.includes("(F7)")) { //Ghostblocks here
-    World.getWorld().func_175698_g(new BP(91, 165, 39));
+  if (scoreboardInfo.includes("(F7)")) {
+    World.getWorld().func_175698_g(new BP(91, 220, 61));
+    RenderLib.drawBaritoneEspBox(91,219,61,1,1,1,0,0,1,true)
+    World.getWorld().func_175698_g(new BP(91, 219, 61));
+    World.getWorld().func_175698_g(new BP(91, 218, 61));
+    World.getWorld().func_175698_g(new BP(91, 217, 61));
+    World.getWorld().func_175698_g(new BP(91, 216, 61));
+    World.getWorld().func_175698_g(new BP(91, 215, 61));
+    World.getWorld().func_175698_g(new BP(91, 214, 61));
+    World.getWorld().func_175698_g(new BP(91, 213, 61));
+    World.getWorld().func_175698_g(new BP(91, 212, 61));
+    World.getWorld().func_175698_g(new BP(91, 211, 61));
+    World.getWorld().func_175698_g(new BP(91, 210, 61));
+    World.getWorld().func_175698_g(new BP(57, 107, 124));
+    RenderLib.drawBaritoneEspBox(57,108,124,1,1,1,0,0,1,true)
+    World.getWorld().func_175698_g(new BP(57, 107, 122));
+    World.getWorld().func_175698_g(new BP(57, 107, 121));
+    World.getWorld().func_175698_g(new BP(57, 108, 121));
+    World.getWorld().func_175698_g(new BP(57, 107, 120));
+    World.getWorld().func_175698_g(new BP(57, 108, 120));
+    World.getWorld().func_175698_g(new BP(57, 107, 119));
+    World.getWorld().func_175698_g(new BP(57, 108, 119));
+    World.getWorld().func_175698_g(new BP(57, 107, 118));
+    World.getWorld().func_175698_g(new BP(57, 108, 118));
+    World.getWorld().func_175698_g(new BP(57, 107, 117));
+    World.getWorld().func_175698_g(new BP(57, 108, 117));
   }
 })
 register("chat", () => [
 
 ]).setCriteria("[BOSS] Storm: The power of lightning is quite phenomenal. A single strike can vaporize a person whole.")
-register("gameLoad", () => {
-  billion()
-  million()
-  k()
-  coin()
-})
-register("tick", () => {
+register("chat", () => {
   if (settings.getSetting("Skyblock", "High Purse") == false) return;
-  if (!Dungeon.inDungeon) {
+  let scoreboarddungeon = Scoreboard.getLines()
+  let scoreboarddungeoninfo = scoreboarddungeon.join()
+  if (scoreboarddungeoninfo.includes("The Catacombs")){
+    
   }
   else {
-  Scoreboard.setLine(4, "Purse: §6" + bresult+","+ mresult+"," + kresult+"," + cresult, true)
+    setTimeout(function() {
+    Scoreboard.setLine(4, "Purse: §6" +billion()+","+ million()+"," +k() +"," + coin(), true)
+  }, 1000)
   }
-})
+}).setCriteria("Sending to server ${server}...")
 register("chat", () => {
   inkuudra = true
   if(settings.getSetting("Nether", "Kuudra chest spawns (should work most of the time)") == true) {
@@ -153,14 +177,14 @@ register("tick", () => {
   if (settings.getSetting("Nether", "Kuudra auto stun message") == false) return;
   if (Kuudrablocksbroken == 19) {
     Client.showTitle(`&lStun is Ready!`, "(Stun in 1 Bock)", 5, 45, 5);
-    World.playSound("block.end_portal_frame.fill", 1, 1.1);
+    World.playSound("mob.blaze.hit", 10, 1.1);
     ChatLib.say("/pc Stun Ready")
     Kuudrablocksbroken = -1
   }
 })
 
 function billion() {
-  var bresult           = '';
+  var bresult = '';
   var bcharacters       = '1234567890123451234512345';
   var bcharactersLength = bcharacters.length;
   for ( var b = 0; b < 2; b++ ) {
@@ -200,9 +224,9 @@ function coin() {
 
 register("renderPlayerList", () => {
     TabList.setHeader("§l§dIfallAddons on top!\n");
-    if (settings.getSetting("Visual", "IfallAddons")) {
+    if (settings.getSetting("Visual", "IfallAddons") == true) {
       Player.setTabDisplayName("&l&8IfallAdoons User")
-      Player.setNametagName("&l&8IfallAdoons User")
+      Player.setNametagName(`IfallAddons User`)
     }
   }
 );  
@@ -227,10 +251,12 @@ register("renderPlayerList", () => {
   register("chat", () => {
     if (settings.getSetting("Dungeons", "Auto join Mastermode Toggle")) {
       ChatLib.say(`/joindungeon master_catacombs ${settings.getSetting("Dungeons", "Floor")}`)
+      World.playSound("random.door_open", 1, 1.1)
       Client.showTitle(`&l&8Joining Mastermode ${settings.getSetting("Dungeons", "Floor")}`, "", 5, 45, 5);
     }
     else {
       ChatLib.say(`/joindungeon catacombs ${settings.getSetting("Dungeons", "Floor")}`)
+      World.playSound("random.door_open", 1, 1.1)
       Client.showTitle(`&l&8Joining Floor ${settings.getSetting("Dungeons", "Floor")}`, "", 5, 45, 5);
      }
   }).setCriteria("[Bazaar] Executing instant sell...")
@@ -272,7 +298,7 @@ register("renderPlayerList", () => {
   
   register("renderOverlay", timmer);
   function timmer() {
-      if (settings.getSetting("Skyblock", "GyroTimer")) return;
+      if (settings.getSetting("Dungeons", "GyroTimer")) return;
       var magegyro1 = "&l" + time
       var magegyro2 = "&l" + time2
       var magegyro3 = "&l" + time3
