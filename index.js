@@ -1,5 +1,3 @@
-/// <reference types="../CTAutocomplete" />5
-/// <reference lib="es2015" />
 
 const Color = Java.type("java.awt.Color");
 
@@ -104,31 +102,26 @@ register("step", () => {
     World.getWorld().func_175698_g(new BP(91, 212, 61));
     World.getWorld().func_175698_g(new BP(91, 211, 61));
     World.getWorld().func_175698_g(new BP(91, 210, 61));
-    World.getWorld().func_175698_g(new BP(57, 107, 124));
-    World.getWorld().func_175698_g(new BP(57, 107, 122));
-    World.getWorld().func_175698_g(new BP(57, 107, 121));
+    World.getWorld().func_175698_g(new BP(57, 108, 124));
+    World.getWorld().func_175698_g(new BP(57, 108, 122));
     World.getWorld().func_175698_g(new BP(57, 108, 121));
-    World.getWorld().func_175698_g(new BP(57, 107, 120));
+    World.getWorld().func_175698_g(new BP(57, 109, 121));
     World.getWorld().func_175698_g(new BP(57, 108, 120));
-    World.getWorld().func_175698_g(new BP(57, 107, 119));
+    World.getWorld().func_175698_g(new BP(57, 109, 120));
     World.getWorld().func_175698_g(new BP(57, 108, 119));
-    World.getWorld().func_175698_g(new BP(57, 107, 118));
+    World.getWorld().func_175698_g(new BP(57, 109, 119));
     World.getWorld().func_175698_g(new BP(57, 108, 118));
-    World.getWorld().func_175698_g(new BP(57, 107, 117));
+    World.getWorld().func_175698_g(new BP(57, 109, 118));
     World.getWorld().func_175698_g(new BP(57, 108, 117));
+    World.getWorld().func_175698_g(new BP(57, 109, 117));
   }
 })
 register("chat", () => {
   if (settings.getSetting("Skyblock", "High Purse") == false) return;
-  let scoreboarddungeon = Scoreboard.getLines()
-  let scoreboarddungeoninfo = scoreboarddungeon.join()
-  if (scoreboarddungeoninfo.includes("The Catacombs") && Skyblock.area == "Dungeon Hub"){
-    
-  }
-  else {
+  if (Skyblock.area !== "Dungeon"){
     setTimeout(function() {
     Scoreboard.setLine(4, "Purse: §6" +billion()+","+ million()+"," +k() +"," + coin(), true)
-  }, 1000)
+  }, 100)
   }
 }).setCriteria("Sending to server ${server}...")
 
