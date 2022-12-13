@@ -1,4 +1,9 @@
-import RenderLib from "../RenderLib/index.js";
+/// <reference types="../CTAutocomplete" />5
+/// <reference lib="es2015" />
+
+const Color = Java.type("java.awt.Color");
+
+import Party from "../BloomCore/Party"
 import Skyblock from "../BloomCore/Skyblock"
 import { Setting, SettingsObject } from 'SettingsManager/SettingsManager';
 import * as Gradient from "Gradient";
@@ -24,7 +29,6 @@ let timestart2 = false
 let timestart3 = false
 var rankign = ""
 let Kuudrablocksbroken = 0
-let Color = java.awt.Color;
 let inF7 = false;
 
 ChatLib.chat(ChatLib.getChatBreak("&8-"));
@@ -43,7 +47,6 @@ const settings = new SettingsObject('IfallAddons', [
 		settings: [
             new Setting.Toggle("GyroTimer", true),
             new Setting.Toggle("F7 Ghostblocks for Phases that no other client has", true),
-            new Setting.Toggle("Auto Storm Slimehat", true),
             new Setting.Slider("Floor", 1, 0, 7),
             new Setting.Toggle("Auto join Mastermode Toggle", false),
             new Setting.TextInput("Your Rank and Ign", "[Your_Rank] Your_Name ●"),
@@ -53,7 +56,6 @@ const settings = new SettingsObject('IfallAddons', [
     name: `Nether`,
     settings: [
       new Setting.Toggle("Kuudra auto stun message", true),
-      new Setting.Toggle("Kuudra chest spawns (should work most of the time)", true)
     ]
   },
     {
@@ -79,39 +81,19 @@ register("step", function() {
        var value = settings.getSetting("Visual", "Gui Color");
        settings.setColor(Renderer.color(value[0], value[1], value[2], 255));
    });
+  let texts = ["§bwww.methpixel.net", "§dIfallAddons", "§8stealing SSids...", "§cSubscribe to ifallious", "§1https://discord.gg/gkbyYGrm", "§1https://discord.gg/qol"]
+  var selectedtext = texts[Math.floor(Math.random() * texts.length)]
 
-const logo = new Image("Mommy.png", "https://i.imgur.com/uhdq6MW.jpg");
 register("step", () => {
   
-  Scoreboard.setLine(1, "§l§8IfallAddons.com", true)
+  Scoreboard.setLine(1, selectedtext, true)
 })
-const autoslimehat = () => {
-  new Thread(() => {
-      if (settings.getSetting("Dungeons", "Auto Storm Slimehat")) {
-          for (let s = 0; s < 102; s++) {
-              ChatLib.chat("Swapping to Slimehat")
-              let inv = Player.getOpenedInventory()
-              let item = Player.getOpenedInventory().getStackInSlot(i);
-              if (item.getName().includes("Slime Hat")) {
-                  inv.click(s, true, "LEFT");
-                  inv.click(5, true, "LEFT")
-              }
-              }
-          }
-  }).start()
-}
-register("chat", () => {
-  autoslimehat()
-}
-).setCriteria("[BOSS] Storm: I'd be happy to show you what that's like!")
-
 register("step", () => {
   if (settings.getSetting("Dungeons", "F7 Ghostblocks for Phases that no other client has") == false) return;
   let scoreboardInfoData = Scoreboard.getLines()
   let scoreboardInfo = scoreboardInfoData.join()
   if (scoreboardInfo.includes("(F7)")) {
     World.getWorld().func_175698_g(new BP(91, 220, 61));
-    RenderLib.drawBaritoneEspBox(91,219,61,1,1,1,0,0,1,true)
     World.getWorld().func_175698_g(new BP(91, 219, 61));
     World.getWorld().func_175698_g(new BP(91, 218, 61));
     World.getWorld().func_175698_g(new BP(91, 217, 61));
@@ -123,7 +105,6 @@ register("step", () => {
     World.getWorld().func_175698_g(new BP(91, 211, 61));
     World.getWorld().func_175698_g(new BP(91, 210, 61));
     World.getWorld().func_175698_g(new BP(57, 107, 124));
-    RenderLib.drawBaritoneEspBox(57,108,124,1,1,1,0,0,1,true)
     World.getWorld().func_175698_g(new BP(57, 107, 122));
     World.getWorld().func_175698_g(new BP(57, 107, 121));
     World.getWorld().func_175698_g(new BP(57, 108, 121));
@@ -137,14 +118,11 @@ register("step", () => {
     World.getWorld().func_175698_g(new BP(57, 108, 117));
   }
 })
-register("chat", () => [
-
-]).setCriteria("[BOSS] Storm: The power of lightning is quite phenomenal. A single strike can vaporize a person whole.")
 register("chat", () => {
   if (settings.getSetting("Skyblock", "High Purse") == false) return;
   let scoreboarddungeon = Scoreboard.getLines()
   let scoreboarddungeoninfo = scoreboarddungeon.join()
-  if (scoreboarddungeoninfo.includes("The Catacombs")){
+  if (scoreboarddungeoninfo.includes("The Catacombs") && Skyblock.area == "Dungeon Hub"){
     
   }
   else {
@@ -153,18 +131,24 @@ register("chat", () => {
   }, 1000)
   }
 }).setCriteria("Sending to server ${server}...")
-register("chat", () => {
-  inkuudra = true
-  if(settings.getSetting("Nether", "Kuudra chest spawns (should work most of the time)") == true) {
-  RenderLib.drawBaritoneEspBox(x,y,z,1,1,1,0,0,1,true) //Change Coords to Chests
-  RenderLib.drawBaritoneEspBox(x,y,z,1,1,1,0,0,1,true)
-  RenderLib.drawBaritoneEspBox(x,y,z,1,1,1,0,0,1,true)
-}
-}).setCriteria("üäüöü") //Elle Message
 
-register("worldLoad", () => {
-  inkuudra = false
-  Kuudrablocksbroken = 0
+register("tick", () => {
+  if (Skyblock.area == "Instanced") {
+    inkuudra = true
+  }
+})
+register("renderWorld", () => {
+  setTimeout(function() {
+  if(Skyblock.area == "Instanced") {
+    Tessellator.drawString("Kuudra Supply here", -63, 80, -80, 2, true, 1, true);
+    Tessellator.drawString("Kuudra Supply here", -63, 80, -124, 2, true, 1, true);
+    Tessellator.drawString("Kuudra Supply here", -73, 80, -149, 2, true, 1, true);
+    Tessellator.drawString("Kuudra Supply here", -115, 80, -57, 2, true, 1, true);
+    Tessellator.drawString("Kuudra Supply here", -150, 80, -88, 2, true, 1, true);
+    Tessellator.drawString("Kuudra Supply here", -139, 80, -150, 2, true, 1, true);
+    Tessellator.drawString("Kuudra Supply here", -142, 80, -118, 2, true, 1, true)
+  }
+}, 1000)
 })
 
 register("blockBreak", () => {
@@ -238,7 +222,8 @@ register("renderPlayerList", () => {
   }
   ).setCriteria("${name} has disbanded the party!")
   
-  register("chat", (ripbozo) => {
+  
+  register("chat", () => {
     ChatLib.chat("&l&fYou are Party Leader")
     pleader = true
   }
@@ -252,12 +237,12 @@ register("renderPlayerList", () => {
     if (settings.getSetting("Dungeons", "Auto join Mastermode Toggle")) {
       ChatLib.say(`/joindungeon master_catacombs ${settings.getSetting("Dungeons", "Floor")}`)
       World.playSound("random.door_open", 1, 1.1)
-      Client.showTitle(`&l&8Joining Mastermode ${settings.getSetting("Dungeons", "Floor")}`, "", 5, 45, 5);
+      Client.showTitle(`&l&8Joining Mastermode ${settings.getSetting("Dungeons", "Floor")}`, "(if you are partyleader)", 5, 45, 5);
     }
     else {
       ChatLib.say(`/joindungeon catacombs ${settings.getSetting("Dungeons", "Floor")}`)
       World.playSound("random.door_open", 1, 1.1)
-      Client.showTitle(`&l&8Joining Floor ${settings.getSetting("Dungeons", "Floor")}`, "", 5, 45, 5);
+      Client.showTitle(`&l&8Joining Floor ${settings.getSetting("Dungeons", "Floor")}`, "(if you are partyleader)", 5, 45, 5);
      }
   }).setCriteria("[Bazaar] Executing instant sell...")
 
@@ -345,5 +330,3 @@ register("renderPlayerList", () => {
    }
    return result;
   }  
-
-export {logo}  

@@ -1,3 +1,4 @@
+
 const prefix = "§l§dIfallAddons"
 const BP = Java.type("net.minecraft.util.BlockPos");
 const getVersion = () => JSON.parse(FileLib.read("IfallAddons", "metadata.json")).version
