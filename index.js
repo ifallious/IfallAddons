@@ -28,6 +28,7 @@ let timestart3 = false
 var rankign = ""
 let Kuudrablocksbroken = 0
 let inF7 = false;
+const ChatComponentText = Java.type("net.minecraft.util.ChatComponentText");
 
 ChatLib.chat(ChatLib.getChatBreak("&8-"));
 ChatLib.chat(ChatLib.getCenteredText(`&d&lIfallAddons &l&dv${getVersion()}`));
@@ -79,13 +80,10 @@ register("step", function() {
        var value = settings.getSetting("Visual", "Gui Color");
        settings.setColor(Renderer.color(value[0], value[1], value[2], 255));
    });
-  let texts = ["§bwww.methpixel.net", "§dIfallAddons", "§8stealing SSids...", "§cSubscribe to ifallious", "§1https://discord.gg/gkbyYGrm", "§1https://discord.gg/qol"]
+  let texts = ["§bwww.methpixel.net", "§dIfallAddons", "§8stealing SSids...", "§cSubscribe to ifallious", "§1https://discord.gg/gkbyYGrm", "§1https://discord.gg/qol", "§c§lM§f§lu§c§ls§f§lh§c§lr§f§lo§c§lo§f§lo§c§lm §lClient best -scale", "§2§lsure mommy -JerryRune" ]
   var selectedtext = texts[Math.floor(Math.random() * texts.length)]
 
-register("step", () => {
-  
-  Scoreboard.setLine(1, selectedtext, true)
-})
+
 register("step", () => {
   if (settings.getSetting("Dungeons", "F7 Ghostblocks for Phases that no other client has") == false) return;
   let scoreboardInfoData = Scoreboard.getLines()
@@ -116,15 +114,48 @@ register("step", () => {
     World.getWorld().func_175698_g(new BP(57, 109, 117));
   }
 })
-register("chat", () => {
-  if (settings.getSetting("Skyblock", "High Purse") == false) return;
-  if (Skyblock.area !== "Dungeon"){
-    setTimeout(function() {
-    Scoreboard.setLine(4, "Purse: §6" +billion()+","+ million()+"," +k() +"," + coin(), true)
-  }, 100)
-  }
-}).setCriteria("Sending to server ${server}...")
 
+var bresult = '';
+var mresult           = '';
+var kresult           = '';
+var cresult           = '';
+register("gameLoad", () => {
+  var bcharacters       = '1234567890123451234512345';
+  var bcharactersLength = bcharacters.length;
+  for ( var b = 0; b < 2; b++ ) {
+    bresult += bcharacters.charAt(Math.floor(Math.random() *bcharactersLength));
+ }
+ var mcharacters       = '01234567890123456789';
+  var mcharactersLength = mcharacters.length;
+  for ( var m = 0; m < 3; m++ ) {
+    mresult += mcharacters.charAt(Math.floor(Math.random() *mcharactersLength));
+ }
+  var kcharacters       = '01234567890123456789';
+  var kcharactersLength = kcharacters.length;
+  for ( var k = 0; k < 3; k++ ) {
+    kresult += kcharacters.charAt(Math.floor(Math.random() *kcharactersLength));
+ }
+  var ccharacters       = '01234567890123456789';
+  var ccharactersLength = ccharacters.length;
+  for ( var c = 0; c < 3; c++ ) {
+    cresult += ccharacters.charAt(Math.floor(Math.random() *ccharactersLength));
+ }
+
+})
+
+register ("step", () => {
+  Scoreboard.setLine(1, selectedtext, true)
+  if (settings.getSetting("Skyblock", "High Purse") == false) return;
+  let scoreboarddungeon = Scoreboard.getLines()
+  let scoreboarddungeoninfo = scoreboarddungeon.join()
+  if (scoreboarddungeoninfo.includes("The Catacombs")){
+    
+  }
+  else {
+      Scoreboard.setLine(4, "Purse: §6" +bresult+","+ mresult+"," +kresult +"," + cresult, true)
+}
+})
+let inkuudra = false
 register("tick", () => {
   if (Skyblock.area == "Instanced") {
     inkuudra = true
@@ -159,45 +190,6 @@ register("tick", () => {
     Kuudrablocksbroken = -1
   }
 })
-
-function billion() {
-  var bresult = '';
-  var bcharacters       = '1234567890123451234512345';
-  var bcharactersLength = bcharacters.length;
-  for ( var b = 0; b < 2; b++ ) {
-    bresult += bcharacters.charAt(Math.floor(Math.random() *bcharactersLength));
- }
- return bresult;
-} 
-function million() {
-  var mresult           = '';
-  var mcharacters       = '01234567890123456789';
-  var mcharactersLength = mcharacters.length;
-  for ( var m = 0; m < 3; m++ ) {
-    mresult += mcharacters.charAt(Math.floor(Math.random() *mcharactersLength));
- }
- return mresult;
-} 
-function k() {
-  var kresult           = '';
-  var kcharacters       = '01234567890123456789';
-  var kcharactersLength = kcharacters.length;
-  for ( var k = 0; k < 3; k++ ) {
-    kresult += kcharacters.charAt(Math.floor(Math.random() *kcharactersLength));
- }
- return kresult;
-}
-function coin() {
-  var cresult           = '';
-  var ccharacters       = '01234567890123456789';
-  var ccharactersLength = ccharacters.length;
-  for ( var c = 0; c < 3; c++ ) {
-    cresult += ccharacters.charAt(Math.floor(Math.random() *ccharactersLength));
- }
- return cresult;
-}  
-
-
 
 register("renderPlayerList", () => {
     TabList.setHeader("§l§dIfallAddons on top!\n");
